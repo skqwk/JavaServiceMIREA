@@ -30,17 +30,20 @@ public class RequestController {
         return DemoResponse.ok(requestService.getRequest(id));
     }
 
-    @DeleteMapping("{name}")
+    @DeleteMapping("{id}")
     @ApiOperation(value = "Запрос на удаление",
             notes = "Получение данных запроса на удаление")
-    public DemoResponse<String> deleteRequest(@ApiParam("Идентификатор для удаления") @PathVariable String name) {
-        return DemoResponse.ok(String.format("%s was deleted", name));
+    public DemoResponse<String> deleteRequest(@ApiParam("Идентификатор для удаления") @PathVariable Long id) {
+        return requestService.deleteRequest(id) ?
+                DemoResponse.ok("Row with id: " + id + " was deleted") :
+                DemoResponse.error("An error occurred while deleting line with id: " + id, null);
     }
 
-    @PutMapping("{name}")
+    @PutMapping("{id}")
     @ApiOperation(value = "Запрос на обновление",
             notes = "Получение данных запроса на обновление")
-    public DemoResponse<String> putRequest(@ApiParam("Идентификатор для обновления") @PathVariable String name) {
-        return DemoResponse.ok(String.format("%s was updated", name));
+    public DemoResponse<CreatedRequestDTO> putRequest(@ApiParam("Идентификатор для удаления") @PathVariable Long id,
+                                                      @RequestBody NewRequestDTO updatedRequestDTO) {
+        return DemoResponse.ok(requestService.updateRequest(id, updatedRequestDTO));
     }
 }

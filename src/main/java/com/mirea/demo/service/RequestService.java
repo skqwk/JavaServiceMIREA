@@ -8,6 +8,7 @@ import com.mirea.demo.model.dto.NewRequestDTO;
 import com.mirea.demo.model.dto.RequestDTO;
 import com.mirea.demo.model.entity.RequestEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
@@ -26,5 +27,25 @@ public class RequestService {
         RequestEntity requestEntity = requestRepository.findById(id).orElseThrow(() -> new RequestNotFoundException(id));
         return requestMapper.entityToDto(requestEntity);
 
+    }
+
+    public boolean deleteRequest(Long id) {
+        try {
+            requestRepository.deleteById(id);
+            return true;
+        } catch (EmptyResultDataAccessException e) {
+            throw new RequestNotFoundException(id);
+        }
+    }
+
+    public CreatedRequestDTO updateRequest(Long id, NewRequestDTO updatedRequestDTO) {
+        RequestEntity requestEntity = requestRepository.findById(id).orElseThrow(() -> new RequestNotFoundException(id));
+        requestEntity.setAmount(updatedRequestDTO.getAmount());
+        requestEntity.setDescription(updatedRequestDTO.getDescription());
+        requestEntity.setName(updatedRequestDTO.getName());
+
+        RequestEntity save = requestRepository.save(requestEntity);
+
+        return requestMapper.entityToCreatedDto(save);
     }
 }
