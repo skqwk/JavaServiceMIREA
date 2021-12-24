@@ -42,7 +42,7 @@ public class RequestController {
     @PutMapping("{id}")
     @ApiOperation(value = "Запрос на обновление",
             notes = "Получение данных запроса на обновление")
-    public DemoResponse<CreatedRequestDTO> putRequest(@ApiParam("Идентификатор для удаления") @PathVariable Long id,
+    public DemoResponse<CreatedRequestDTO> putRequest(@ApiParam("Идентификатор для обновления") @PathVariable Long id,
                                                       @RequestBody NewRequestDTO updatedRequestDTO) {
         return DemoResponse.ok(requestService.updateRequest(id, updatedRequestDTO));
     }
