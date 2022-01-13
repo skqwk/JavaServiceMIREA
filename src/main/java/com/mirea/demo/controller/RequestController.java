@@ -1,9 +1,6 @@
 package com.mirea.demo.controller;
 
-import com.mirea.demo.model.dto.CreatedRequestDTO;
-import com.mirea.demo.model.dto.DemoResponse;
-import com.mirea.demo.model.dto.NewRequestDTO;
-import com.mirea.demo.model.dto.RequestDTO;
+import com.mirea.demo.model.dto.*;
 import com.mirea.demo.service.RequestService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,17 +30,16 @@ public class RequestController {
     @DeleteMapping("{id}")
     @ApiOperation(value = "Запрос на удаление",
             notes = "Получение данных запроса на удаление")
-    public DemoResponse<String> deleteRequest(@ApiParam("Идентификатор для удаления") @PathVariable Long id) {
-        return requestService.deleteRequest(id) ?
-                DemoResponse.ok("Row with id: " + id + " was deleted") :
-                DemoResponse.error("An error occurred while deleting line with id: " + id, null);
+    public DemoResponse<Void> deleteRequest(@ApiParam("Идентификатор для удаления") @PathVariable Long id) {
+        requestService.deleteRequest(id);
+        return DemoResponse.ok();
     }
 
     @PutMapping("{id}")
     @ApiOperation(value = "Запрос на обновление",
             notes = "Получение данных запроса на обновление")
-    public DemoResponse<CreatedRequestDTO> putRequest(@ApiParam("Идентификатор для обновления") @PathVariable Long id,
-                                                      @RequestBody NewRequestDTO updatedRequestDTO) {
-        return DemoResponse.ok(requestService.updateRequest(id, updatedRequestDTO));
+    public DemoResponse<UpdatedRequestDTO> putRequest(@ApiParam("Идентификатор для обновления") @PathVariable Long id,
+                                                      @RequestBody FreshRequestDTO freshRequestDTO) {
+        return DemoResponse.ok(requestService.updateRequest(id, freshRequestDTO));
     }
 }

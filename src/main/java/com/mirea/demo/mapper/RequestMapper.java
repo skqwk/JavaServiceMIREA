@@ -1,8 +1,6 @@
 package com.mirea.demo.mapper;
 
-import com.mirea.demo.model.dto.CreatedRequestDTO;
-import com.mirea.demo.model.dto.NewRequestDTO;
-import com.mirea.demo.model.dto.RequestDTO;
+import com.mirea.demo.model.dto.*;
 import com.mirea.demo.model.entity.RequestEntity;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
@@ -15,4 +13,8 @@ public interface RequestMapper {
     CreatedRequestDTO entityToCreatedDto(RequestEntity requestEntity);
 
     RequestDTO entityToDto(RequestEntity requestEntity);
+
+    RequestEntity freshDTOToEntity(FreshRequestDTO freshRequestDTO);
+
+    UpdatedRequestDTO entityToUpdatedDto(RequestEntity requestEntity);
 }
